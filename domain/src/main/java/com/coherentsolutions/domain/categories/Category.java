@@ -5,8 +5,8 @@ import com.coherentsolutions.domain.products.Product;
 import java.util.List;
 
 public class Category {
-    public String name;
-    public List<Product> products;
+    private String name;
+    private List<Product> products;
 
     public String getName() {
         return name;
