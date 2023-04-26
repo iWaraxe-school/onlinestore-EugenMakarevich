@@ -1,4 +1,4 @@
 package com.coherentsolutions.domain.categories;
 
-public class FoodCategory {
+public class FoodCategory extends Category {
 }

@@ -1,4 +1,4 @@
 package com.coherentsolutions.domain.categories;
 
-public class PhoneCategory {
+public class PhoneCategory extends Category {
 }
