@@ -1,9 +1,9 @@
 package com.coherentsolutions.domain.products;
 
 public class Product {
-    private String name;
-    private double rate;
-    private double price;
+    public String name;
+    public double rate;
+    public double price;
 
     public String getName() {
         return name;
