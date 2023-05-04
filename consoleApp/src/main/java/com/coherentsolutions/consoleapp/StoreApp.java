@@ -6,7 +6,7 @@ import com.coherentsolutions.store.RandomProductGenerator;
 public class StoreApp {
 
     public static void main(String[] args) {
-        RandomProductGenerator generator = new RandomProductGenerator(Categories.BOOKS);
-        System.out.println(generator.generateProduct(Categories.BOOKS));
+        RandomProductGenerator generator = new RandomProductGenerator();
+        System.out.println(generator.generateProduct(Categories.PHONES));
     }
 }

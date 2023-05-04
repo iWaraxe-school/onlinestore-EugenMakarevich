@@ -6,11 +6,6 @@ import com.github.javafaker.Faker;
 
 public class RandomProductGenerator {
     Faker faker = new Faker();
-    Categories categories;
-
-    public RandomProductGenerator(Categories categories) {
-        this.categories = categories;
-    }
 
     public Product generateProduct(Categories categoryName) {
         return new Product(
@@ -21,7 +16,7 @@ public class RandomProductGenerator {
     }
 
     private String generateName(Categories categoryName) {
-        switch (categories) {
+        switch (categoryName) {
             case BOOKS:
                 return faker.book().title();
             case FOOD:
