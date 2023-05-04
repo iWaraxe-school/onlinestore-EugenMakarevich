@@ -1,27 +1,36 @@
 package com.coherentsolutions.store;
 
+import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.products.Product;
 import com.github.javafaker.Faker;
 
 public class RandomProductGenerator {
     Faker faker = new Faker();
+    Categories categories;
 
-    public Product generateProduct() {
-        Product product = new Product();
-        String name = generateName();
-        double rate = generateRate();
-        double price = generatePrice();
-        product.setName(name);
-        product.setRate(rate);
-        product.setPrice(price);
-        return product;
+    public RandomProductGenerator(Categories categories) {
+        this.categories = categories;
     }
 
-    private String generateName() {
-        if (true) {
-            return faker.book().title();
+    public Product generateProduct(Categories categoryName) {
+        return new Product(
+                generateName(categoryName),
+                generateRate(),
+                generatePrice()
+        );
+    }
+
+    private String generateName(Categories categoryName) {
+        switch (categories) {
+            case BOOKS:
+                return faker.book().title();
+            case FOOD:
+                return faker.food().dish();
+            case PHONES:
+                return faker.commerce().productName();
+            default:
+                return faker.commerce().productName();
         }
-        return "";
     }
 
     private double generateRate() {
