@@ -1,5 +1,5 @@
 package com.coherentsolutions.domain.categories;
 
-public class BookCategory extends Category {
-
+public enum Categories {
+    FOOD, BOOKS, PHONES;
 }
