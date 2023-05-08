@@ -5,7 +5,12 @@ import com.coherentsolutions.domain.products.Product;
 import java.util.List;
 
 public class Category {
-    public String name;
+    private String name;
+
+    public Category(String name, List<Product> products) {
+        this.name = name;
+        this.products = products;
+    }
     private List<Product> products;
 
     public String getName() {
@@ -22,5 +27,13 @@ public class Category {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", products=" + products +
+                '}';
     }
 }
