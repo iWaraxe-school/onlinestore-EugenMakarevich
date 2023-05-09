@@ -1,16 +1,27 @@
 package com.coherentsolutions.store;
 
+import com.coherentsolutions.domain.categories.Category;
+import org.reflections.Reflections;
+
+import java.util.Set;
+
+import static org.reflections.scanners.Scanners.SubTypes;
+
 public class RandomStorePopulator {
 
     public void fillStoreRandomly() {
         createCategories();
     }
 
-    private void createCategories() {
-        //1. Put all categories class in to one package
-        //2. Use loop for to get all Classes from this package https://www.baeldung.com/java-find-all-classes-in-package#2-reflections-library
+    public void createCategories() {
+        Set<Class<?>> classes = findAllClasses("com/coherentsolutions/domain/categories/subcategories");
+        //2. Get all Classes from this package
         //3. For each class create an instance
-        //Do I need to cast this class to the Category class?
         //4. Add this instance to the List<Category> categories
+    }
+
+    public Set<Class<?>> findAllClasses(String packageName) {
+        Reflections reflections = new Reflections(packageName);
+        return reflections.get(SubTypes.of(Category.class).asClass());
     }
 }
