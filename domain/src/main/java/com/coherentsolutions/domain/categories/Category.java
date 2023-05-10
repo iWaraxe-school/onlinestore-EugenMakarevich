@@ -2,14 +2,15 @@ package com.coherentsolutions.domain.categories;
 
 import com.coherentsolutions.domain.products.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
     private String name;
 
-    public Category(String name, List<Product> products) {
+    public Category(String name) {
         this.name = name;
-        this.products = products;
+        this.products = new ArrayList<>();
     }
     private List<Product> products;
 

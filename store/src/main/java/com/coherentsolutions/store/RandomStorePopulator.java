@@ -8,14 +8,28 @@ import java.util.Set;
 import static org.reflections.scanners.Scanners.SubTypes;
 
 public class RandomStorePopulator {
+    private Store store;
+
+    public RandomStorePopulator(Store store) {
+        this.store = store;
+    }
 
     public void fillStoreRandomly() {
         createCategories();
     }
 
     public void createCategories() {
-        Set<Class<?>> classes = findAllClasses("com/coherentsolutions/domain/categories/subcategories");
-        //2. Get all Classes from this package
+        Set<Class<?>> classes = findAllClasses("com.coherentsolutions.domain.categories.subcategories");
+        for (Class<?> cl : classes) {
+            try {
+                Category category = (Category) cl.newInstance();
+                store.addCategory(category);
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
         //3. For each class create an instance
         //4. Add this instance to the List<Category> categories
     }
