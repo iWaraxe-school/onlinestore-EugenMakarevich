@@ -3,12 +3,14 @@ package com.coherentsolutions.store;
 import com.coherentsolutions.domain.categories.Category;
 import org.reflections.Reflections;
 
+import java.util.Random;
 import java.util.Set;
 
 import static org.reflections.scanners.Scanners.SubTypes;
 
 public class RandomStorePopulator {
     private Store store;
+    final int MAX_NUMBER_PER_CATEGORY = 10;
 
     public RandomStorePopulator(Store store) {
         this.store = store;
@@ -16,6 +18,15 @@ public class RandomStorePopulator {
 
     public void fillStoreRandomly() {
         createCategories();
+
+        for (Category category : store.getCategories()) {
+            RandomProductGenerator generator = new RandomProductGenerator();
+            System.out.println(category.getCategory());
+            int productNum = new Random().nextInt(MAX_NUMBER_PER_CATEGORY) + 1;
+            for (int i = 0; i < productNum; i++) {
+                System.out.println(generator.generateProduct(category.getCategory()));
+            }
+        }
     }
 
     public void createCategories() {
@@ -24,14 +35,10 @@ public class RandomStorePopulator {
             try {
                 Category category = (Category) cl.newInstance();
                 store.addCategory(category);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
-        //3. For each class create an instance
-        //4. Add this instance to the List<Category> categories
     }
 
     public Set<Class<?>> findAllClasses(String packageName) {

@@ -1,5 +1,6 @@
 package com.coherentsolutions.store;
 
+import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.categories.Category;
 
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ public class Store {
         return categories;
     }
 
-    public Category getCategoryByName(String categoryName, List<Category> categories) {
+    public Category getCategoryByName(Categories categoryName, List<Category> categories) {
         for (Category category : categories) {
-            if (category.getName().equals(categoryName)) {
+            if (category.getCategory().equals(categoryName)) {
                 return category;
             }
         }

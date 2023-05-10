@@ -6,20 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    private String name;
+    private Categories category;
 
-    public Category(String name) {
-        this.name = name;
+    public Category(Categories category) {
+        this.category = category;
         this.products = new ArrayList<>();
     }
+
     private List<Product> products;
 
-    public String getName() {
-        return name;
+    public Categories getCategory() {
+        return category;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategory(Categories category) {
+        this.category = category;
     }
 
     public List<Product> getProducts() {
@@ -33,7 +34,7 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "name='" + name + '\'' +
+                "category=" + category +
                 ", products=" + products +
                 '}';
     }
