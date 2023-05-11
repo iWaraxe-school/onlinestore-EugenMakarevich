@@ -2,18 +2,25 @@ package com.coherentsolutions.domain.categories;
 
 import com.coherentsolutions.domain.products.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    public String name;
-    private List<Product> products;
+    private Categories category;
 
-    public String getName() {
-        return name;
+    public Category(Categories category) {
+        this.category = category;
+        this.products = new ArrayList<>();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private List<Product> products;
+
+    public Categories getCategory() {
+        return category;
+    }
+
+    public void setCategory(Categories category) {
+        this.category = category;
     }
 
     public List<Product> getProducts() {
@@ -22,5 +29,13 @@ public class Category {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "category=" + category +
+                ", products=" + products +
+                '}';
     }
 }
