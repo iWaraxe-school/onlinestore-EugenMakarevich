@@ -1,6 +1,7 @@
 package com.coherentsolutions.store;
 
 import com.coherentsolutions.domain.categories.Category;
+import com.coherentsolutions.domain.products.Product;
 import org.reflections.Reflections;
 
 import java.util.Random;
@@ -17,16 +18,23 @@ public class RandomStorePopulator {
     }
 
     public void fillStoreRandomly() {
+        StringBuilder storeBuilder = new StringBuilder();
+        storeBuilder.append("Store:\n");
         createCategories();
 
         for (Category category : store.getCategories()) {
             RandomProductGenerator generator = new RandomProductGenerator();
-            System.out.println(category.getCategory());
+            storeBuilder.append("Category: ").append(category.getCategory()).append("\n");
             int productNum = new Random().nextInt(MAX_NUMBER_PER_CATEGORY) + 1;
+
             for (int i = 0; i < productNum; i++) {
-                System.out.println(generator.generateProduct(category.getCategory()));
+                Product product = generator.generateProduct(category.getCategory());
+                storeBuilder.append("- ")
+                        .append(String.format("Name: %s, Rate: %.2f, Price: %.2f", product.getName(), product.getRate(), product.getPrice()))
+                        .append("\n");
             }
         }
+        System.out.println(storeBuilder);
     }
 
     public void createCategories() {
