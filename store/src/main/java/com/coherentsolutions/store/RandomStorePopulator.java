@@ -1,14 +1,17 @@
 package com.coherentsolutions.store;
 
+import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.categories.Category;
+import com.coherentsolutions.domain.categories.CategoryFactory;
 import com.coherentsolutions.domain.products.Product;
-import org.reflections.Reflections;
 
 import java.util.Random;
-import java.util.Set;
 
-import static org.reflections.scanners.Scanners.SubTypes;
-
+/**
+ * Generates fake data for the Store
+ * Creates categories specified in Categories and instantiates them via CategoryFactory
+ * Each category is filled with generated products
+ */
 public class RandomStorePopulator {
     private Store store;
     final int MAX_NUMBER_PER_CATEGORY = 10;
@@ -18,39 +21,29 @@ public class RandomStorePopulator {
     }
 
     public void fillStoreRandomly() {
-        StringBuilder storeBuilder = new StringBuilder();
-        storeBuilder.append("Store:\n");
         createCategories();
 
         for (Category category : store.getCategories()) {
-            RandomProductGenerator generator = new RandomProductGenerator();
-            storeBuilder.append("Category: ").append(category.getCategory()).append("\n");
-            int productNum = new Random().nextInt(MAX_NUMBER_PER_CATEGORY) + 1;
-
-            for (int i = 0; i < productNum; i++) {
-                Product product = generator.generateProduct(category.getCategory());
-                storeBuilder.append("- ")
-                        .append(String.format("Name: %s, Rate: %.2f, Price: %.2f", product.getName(), product.getRate(), product.getPrice()))
-                        .append("\n");
-            }
+            createProducts(category, new Random().nextInt(MAX_NUMBER_PER_CATEGORY) + 1);
         }
-        System.out.println(storeBuilder);
     }
 
+    // use Factory class to manually instantiates the categories
     public void createCategories() {
-        Set<Class<?>> classes = findAllClasses("com.coherentsolutions.domain.categories.subcategories");
-        for (Class<?> cl : classes) {
-            try {
-                Category category = (Category) cl.newInstance();
-                store.addCategory(category);
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+        for (Categories eCategory : Categories.values()) {
+            CategoryFactory factory = new CategoryFactory();
+            Category category = factory.getCategory(eCategory);
+            store.addCategory(category);
         }
     }
 
-    public Set<Class<?>> findAllClasses(String packageName) {
-        Reflections reflections = new Reflections(packageName);
-        return reflections.get(SubTypes.of(Category.class).asClass());
+    // generate products and add them to the category
+    public void createProducts(Category category, int productNum) {
+        RandomProductGenerator generator = new RandomProductGenerator();
+
+        for (int i = 0; i < productNum; i++) {
+            Product product = generator.generateProduct(category.getCategory());
+            category.addProduct(product);
+        }
     }
 }

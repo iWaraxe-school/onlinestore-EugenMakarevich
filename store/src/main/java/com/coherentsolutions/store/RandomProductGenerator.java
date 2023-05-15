@@ -4,6 +4,10 @@ import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.products.Product;
 import com.github.javafaker.Faker;
 
+/**
+ * Generates products with name, rate and price
+ * Names are generated based on the category
+ */
 public class RandomProductGenerator {
     Faker faker = new Faker();
 
@@ -24,7 +28,7 @@ public class RandomProductGenerator {
             case PHONES:
                 return faker.commerce().productName();
             default:
-                return faker.commerce().productName();
+                throw new IllegalArgumentException();
         }
     }
 
