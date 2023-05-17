@@ -14,7 +14,7 @@ public class StorePrinter {
         this.store = store;
     }
 
-    public void printStore() {
+    public String printStore() {
         StringBuilder storeBuilder = new StringBuilder();
         storeBuilder.append("Store:\n");
 
@@ -27,6 +27,6 @@ public class StorePrinter {
                         .append("\n");
             }
         }
-        System.out.println(storeBuilder);
+        return storeBuilder.toString();
     }
 }

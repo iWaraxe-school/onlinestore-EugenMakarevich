@@ -3,6 +3,7 @@ package com.coherentsolutions.store;
 import com.coherentsolutions.domain.categories.Category;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Store {
@@ -13,7 +14,7 @@ public class Store {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return Collections.unmodifiableList(categories);
     }
 
     @Override

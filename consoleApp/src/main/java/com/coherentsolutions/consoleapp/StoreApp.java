@@ -13,6 +13,6 @@ public class StoreApp {
         populator.fillStoreRandomly();
 
         StorePrinter storePrinter = new StorePrinter(store);
-        storePrinter.printStore();
+        System.out.println(storePrinter.printStore());
     }
 }

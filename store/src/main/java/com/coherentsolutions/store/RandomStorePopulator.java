@@ -14,10 +14,12 @@ import java.util.Random;
  */
 public class RandomStorePopulator {
     private Store store;
+    private RandomProductGenerator generator;
     final int MAX_NUMBER_PER_CATEGORY = 10;
 
     public RandomStorePopulator(Store store) {
         this.store = store;
+        generator = new RandomProductGenerator();
     }
 
     public void fillStoreRandomly() {
@@ -30,8 +32,8 @@ public class RandomStorePopulator {
 
     // use Factory class to manually instantiates the categories
     public void createCategories() {
+        CategoryFactory factory = new CategoryFactory();
         for (Categories eCategory : Categories.values()) {
-            CategoryFactory factory = new CategoryFactory();
             Category category = factory.getCategory(eCategory);
             store.addCategory(category);
         }
@@ -39,8 +41,6 @@ public class RandomStorePopulator {
 
     // generate products and add them to the category
     public void createProducts(Category category, int productNum) {
-        RandomProductGenerator generator = new RandomProductGenerator();
-
         for (int i = 0; i < productNum; i++) {
             Product product = generator.generateProduct(category.getCategory());
             category.addProduct(product);
