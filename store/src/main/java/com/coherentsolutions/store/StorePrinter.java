@@ -13,6 +13,12 @@ public class StorePrinter {
     public StorePrinter(Store store) {
         this.store = store;
     }
+    //You've also made an excellent start on the StorePrinter class, which is designed to print the Store.
+    // However, I would encourage you to think about how you might implement printing sorted data,
+    // as well as the top 5 products by price.
+
+    //Do I need to change the way it's printed in console (like to remove Category for top 5 products for example),
+    //or I need to only change the order of printed data?
 
     public String printStore() {
         StringBuilder storeBuilder = new StringBuilder();
