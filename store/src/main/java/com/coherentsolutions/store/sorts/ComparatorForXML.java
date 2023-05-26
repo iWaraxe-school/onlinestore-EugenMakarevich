@@ -20,7 +20,7 @@ public class ComparatorForXML {
         return comparators;
     }
 
-    //Choose only those comparators that are specified in XML
+    //Choose only those comparators specified in XML
     public List<Comparator<Product>> chooseComparator(Map<String, String> sortOrder) {
         Map<String, Comparator<Product>> comparatorMap = getComparators();
         List<Comparator<Product>> sortList = new ArrayList<>();

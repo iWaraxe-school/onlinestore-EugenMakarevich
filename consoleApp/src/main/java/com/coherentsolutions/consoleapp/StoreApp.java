@@ -18,11 +18,13 @@ public class StoreApp {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         Store store = new Store();
-        CategoryFactory factory = new CategoryFactory();
 
+        //Fill store with categories and random products
+        CategoryFactory factory = new CategoryFactory();
         RandomStorePopulator populator = new RandomStorePopulator(store, factory);
         populator.fillStoreRandomly();
 
+        //Print store
         StorePrinter storePrinter = new StorePrinter(store);
         System.out.println(storePrinter.printStore());
 
@@ -31,9 +33,9 @@ public class StoreApp {
         Map<String, String> sortOrder = xmlParser.parseXMLToMap("store/src/main/resources/config.xml", "sort");
         List<Product> products = store.getAllProducts();
 
+        //Sort products
         ComparatorForXML xmlComparator = new ComparatorForXML();
         products.sort(xmlComparator.buildComparator(xmlComparator.chooseComparator(sortOrder)));
-        System.out.println("Sorted products:");
         storePrinter.printProducts(products);
     }
 }
