@@ -14,16 +14,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class XMLParser {
-    private static final String PATH = "store/src/main/resources/config.xml";
-
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+    public Map<String, String> parseXMLToMap(String pathFile, String nodeName) throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(new File(PATH));
-
+        Document doc = db.parse(new File(pathFile));
         Map<String, String> sorts = new TreeMap<>();
 
-        NodeList nodes = doc.getElementsByTagName("sort");
+        NodeList nodes = doc.getElementsByTagName(nodeName);
         Element element = (Element) nodes.item(0);
         NodeList subnodes = element.getChildNodes();
         for (int i = 0; i < subnodes.getLength(); i++) {
@@ -31,5 +28,6 @@ public class XMLParser {
                 sorts.put(subnodes.item(i).getNodeName(), subnodes.item(i).getTextContent());
             }
         }
+        return sorts;
     }
 }
