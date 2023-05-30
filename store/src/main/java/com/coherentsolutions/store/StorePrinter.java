@@ -3,6 +3,8 @@ package com.coherentsolutions.store;
 import com.coherentsolutions.domain.categories.Category;
 import com.coherentsolutions.domain.products.Product;
 
+import java.util.List;
+
 /**
  * Print Store
  */
@@ -14,7 +16,7 @@ public class StorePrinter {
         this.store = store;
     }
 
-    public void printStore() {
+    public String printStore() {
         StringBuilder storeBuilder = new StringBuilder();
         storeBuilder.append("Store:\n");
 
@@ -27,6 +29,12 @@ public class StorePrinter {
                         .append("\n");
             }
         }
-        System.out.println(storeBuilder);
+        return storeBuilder.toString();
+    }
+
+    public void printProducts(List<Product> products) {
+        for (Product product : products) {
+            System.out.println(product);
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.coherentsolutions.store;
 
 import com.coherentsolutions.domain.categories.Category;
+import com.coherentsolutions.domain.products.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Store {
@@ -13,7 +15,15 @@ public class Store {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return Collections.unmodifiableList(categories);
+    }
+
+    public List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        for (Category category : getCategories()) {
+            products.addAll(category.getProducts());
+        }
+        return products;
     }
 
     @Override
