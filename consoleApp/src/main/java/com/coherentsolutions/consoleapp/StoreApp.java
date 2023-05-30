@@ -1,18 +1,13 @@
 package com.coherentsolutions.consoleapp;
 
 import com.coherentsolutions.domain.categories.CategoryFactory;
-import com.coherentsolutions.domain.products.Product;
 import com.coherentsolutions.store.RandomStorePopulator;
 import com.coherentsolutions.store.Store;
-import com.coherentsolutions.store.StorePrinter;
-import com.coherentsolutions.store.sorts.ComparatorForXML;
-import com.coherentsolutions.store.sorts.XMLParser;
+import com.coherentsolutions.store.UserCommands;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class StoreApp {
 
@@ -25,17 +20,14 @@ public class StoreApp {
         populator.fillStoreRandomly();
 
         //Print store
-        StorePrinter storePrinter = new StorePrinter(store);
-        System.out.println(storePrinter.printStore());
+        UserCommands commands = new UserCommands(store);
+        commands.print();
 
-        //Parse XML to get sort order
-        XMLParser xmlParser = new XMLParser();
-        Map<String, String> sortOrder = xmlParser.parseXMLToMap("store/src/main/resources/config.xml", "sort");
-        List<Product> products = store.getAllProducts();
+        //Sort store and print results
+        commands.sort();
+        System.out.println();
 
-        //Sort products
-        ComparatorForXML xmlComparator = new ComparatorForXML();
-        products.sort(xmlComparator.buildComparator(xmlComparator.chooseComparator(sortOrder)));
-        storePrinter.printProducts(products);
+        //Sort top 5 products by price (desc) and print results
+        commands.top5();
     }
 }

@@ -26,30 +26,14 @@ public class ComparatorForXML {
         List<Comparator<Product>> sortList = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : sortOrder.entrySet()) {
-            switch (entry.getKey()) {
-                case "name":
-                    if (entry.getValue().equalsIgnoreCase("ASC")) {
-                        sortList.add(comparatorMap.get("name"));
-                    } else {
-                        sortList.add(comparatorMap.get("name").reversed());
-                    }
-                    break;
-                case "price":
-                    if (entry.getValue().equalsIgnoreCase("ASC")) {
-                        sortList.add(comparatorMap.get("price"));
-                    } else {
-                        sortList.add(comparatorMap.get("price").reversed());
-                    }
-                    break;
-                case "rate":
-                    if (entry.getValue().equalsIgnoreCase("ASC")) {
-                        sortList.add(comparatorMap.get("rate"));
-                    } else {
-                        sortList.add(comparatorMap.get("rate").reversed());
-                    }
-                    break;
-                default:
-                    return null;
+            Comparator<Product> comparator = comparatorMap.get(entry.getKey());
+            if (comparator != null) {
+                if (entry.getValue().equalsIgnoreCase("DESC")) {
+                    comparator = comparator.reversed();
+                }
+                sortList.add(comparator);
+            } else {
+                System.out.println("Unknown sort field: " + entry.getKey());
             }
         }
         return sortList;
