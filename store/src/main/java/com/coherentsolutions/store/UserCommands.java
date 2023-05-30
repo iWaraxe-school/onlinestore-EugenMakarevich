@@ -51,9 +51,8 @@ public class UserCommands {
         storePrinter.printProducts(top5); //Should it be separate command?
     }
 
-    public boolean quit() {
-        //Functionality will be determined
-        return false;
+    public void quit() {
+        System.out.println("Exit the store. Goodbye!");
     }
 
     public void print() {

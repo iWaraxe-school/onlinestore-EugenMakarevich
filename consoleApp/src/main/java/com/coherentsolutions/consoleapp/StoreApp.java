@@ -3,7 +3,7 @@ package com.coherentsolutions.consoleapp;
 import com.coherentsolutions.domain.categories.CategoryFactory;
 import com.coherentsolutions.store.RandomStorePopulator;
 import com.coherentsolutions.store.Store;
-import com.coherentsolutions.store.UserCommands;
+import com.coherentsolutions.store.StoreCommandHandler;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,15 +19,8 @@ public class StoreApp {
         RandomStorePopulator populator = new RandomStorePopulator(store, factory);
         populator.fillStoreRandomly();
 
-        //Print store
-        UserCommands commands = new UserCommands(store);
-        commands.print();
-
-        //Sort store and print results
-        commands.sort();
-        System.out.println();
-
-        //Sort top 5 products by price (desc) and print results
-        commands.top5();
+        //Read commands from user
+        StoreCommandHandler commandHandler = new StoreCommandHandler(store);
+        commandHandler.readCommands();
     }
 }
