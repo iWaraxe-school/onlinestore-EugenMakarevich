@@ -19,7 +19,7 @@ public class StoreApp {
         RandomStorePopulator populator = new RandomStorePopulator(store, factory);
         populator.fillStoreRandomly();
 
-        //Read commands from user
+        //Read and run commands from the user
         StoreCommandHandler commandHandler = new StoreCommandHandler(store);
         commandHandler.readCommands();
     }

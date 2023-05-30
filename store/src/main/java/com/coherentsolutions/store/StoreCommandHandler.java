@@ -32,14 +32,11 @@ public class StoreCommandHandler {
                 case "print":
                     commands.print();
                     break;
-                case "info":
-                    //commands.info();
-                    break;
                 case "quit":
                     commands.quit();
                     return; //How does it work?
                 default:
-                    System.out.println("Unknown command " + command + ". Try to enter 'info' to get the list of all commands");
+                    System.out.println("Unknown command: " + command);
             }
         }
     }
