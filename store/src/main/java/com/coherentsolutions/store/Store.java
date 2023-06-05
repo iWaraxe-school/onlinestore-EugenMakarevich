@@ -8,7 +8,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class Store {
+    private static Store store;
     private List<Category> categories = new ArrayList<>();
+
+    private Store() {
+    }
+
+    //Apply Singleton pattern for store
+    public static Store getStore() {
+        if (store == null) {
+            store = new Store();
+        }
+        return store;
+    }
 
     public void addCategory(Category category) {
         categories.add(category);
