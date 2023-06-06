@@ -12,11 +12,11 @@ public class RandomProductGenerator {
     Faker faker = new Faker();
 
     public Product generateProduct(Categories categoryName) {
-        return new Product(
-                generateName(categoryName),
-                generateRate(),
-                generatePrice()
-        );
+        return Product.newBuilder()
+                .setName(generateName(categoryName))
+                .setPrice(generatePrice())
+                .setRate(generateRate())
+                .build();
     }
 
     private String generateName(Categories categoryName) {

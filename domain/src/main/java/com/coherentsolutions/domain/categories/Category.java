@@ -5,7 +5,7 @@ import com.coherentsolutions.domain.products.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public abstract class Category {
     private Categories category;
     private List<Product> products;
 

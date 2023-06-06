@@ -12,7 +12,7 @@ import java.io.IOException;
 public class StoreApp {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        Store store = new Store();
+        Store store = Store.getStore();
 
         //Fill store with categories and random products
         CategoryFactory factory = new CategoryFactory();
