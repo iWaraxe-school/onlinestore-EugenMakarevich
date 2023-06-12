@@ -1,6 +1,8 @@
-package com.coherentsolutions.store;
+package com.coherentsolutions.store.interfaces;
 
 import com.coherentsolutions.domain.products.Product;
+import com.coherentsolutions.store.Store;
+import com.coherentsolutions.store.StorePrinter;
 import com.coherentsolutions.store.sorts.Comparator;
 import com.coherentsolutions.store.sorts.XMLParser;
 import org.xml.sax.SAXException;
