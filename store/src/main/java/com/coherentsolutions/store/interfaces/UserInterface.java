@@ -20,8 +20,7 @@ public class UserInterface {
         Scanner scanner = new Scanner(System.in);
         String command = "";
 
-        //I know this is a bad implementation,
-        //but I am struggling to come up with better idea
+        //I need to change it...
         while (!command.equalsIgnoreCase("quit")) {
             System.out.println("Enter a command: ");
             command = scanner.nextLine();

@@ -19,12 +19,16 @@ public class CommandHandler {
                 break;
             case "print":
                 commands.print();
-                    break;
-                case "quit":
-                    commands.quit();
-                    return; //How does it work?
-                default:
-                    System.out.println("Unknown command: " + command);
+                break;
+            case "create order":
+                commands.order();
+                commands.clearCart();
+                break;
+            case "quit": //quit does not work when clearCart command applies
+                commands.quit();
+                return; //How does it work?
+            default:
+                System.out.println("Unknown command: " + command);
         }
     }
 }
