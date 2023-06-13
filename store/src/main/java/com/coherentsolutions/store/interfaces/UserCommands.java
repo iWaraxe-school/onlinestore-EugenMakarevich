@@ -1,6 +1,10 @@
-package com.coherentsolutions.store;
+package com.coherentsolutions.store.interfaces;
 
 import com.coherentsolutions.domain.products.Product;
+import com.coherentsolutions.store.ClearPurchasedGoodsTask;
+import com.coherentsolutions.store.CreateOrderTask;
+import com.coherentsolutions.store.Store;
+import com.coherentsolutions.store.StorePrinter;
 import com.coherentsolutions.store.sorts.Comparator;
 import com.coherentsolutions.store.sorts.XMLParser;
 import org.xml.sax.SAXException;
@@ -9,6 +13,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class UserCommands {
@@ -16,6 +24,7 @@ public class UserCommands {
     XMLParser xmlParser;
     Comparator xmlComparator;
     private Store store;
+    ConcurrentLinkedQueue<Product> cart;
 
     public UserCommands(Store store) {
         this.store = store;
@@ -47,6 +56,16 @@ public class UserCommands {
         List<Product> top5 = products.stream().limit(5).collect(Collectors.toList());
 
         storePrinter.printProducts(top5);
+    }
+
+    public void order() {
+        Thread thread = new Thread(new CreateOrderTask(store));
+        thread.start();
+    }
+
+    public void clearCart() {
+        ScheduledExecutorService ses = Executors.newScheduledThreadPool(10);
+        ses.scheduleAtFixedRate(new ClearPurchasedGoodsTask(store), 40, 40, TimeUnit.SECONDS);
     }
 
     public void quit() {

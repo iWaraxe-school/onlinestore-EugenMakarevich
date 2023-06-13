@@ -1,4 +1,4 @@
-package com.coherentsolutions.store;
+package com.coherentsolutions.store.datageneration;
 
 import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.products.Product;

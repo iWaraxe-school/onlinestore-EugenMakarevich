@@ -1,9 +1,10 @@
-package com.coherentsolutions.store;
+package com.coherentsolutions.store.datageneration;
 
 import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.categories.Category;
 import com.coherentsolutions.domain.categories.CategoryFactory;
 import com.coherentsolutions.domain.products.Product;
+import com.coherentsolutions.store.Store;
 
 import java.util.Random;
 

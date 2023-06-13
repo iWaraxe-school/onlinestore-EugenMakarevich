@@ -1,9 +1,9 @@
 package com.coherentsolutions.consoleapp;
 
 import com.coherentsolutions.domain.categories.CategoryFactory;
-import com.coherentsolutions.store.RandomStorePopulator;
 import com.coherentsolutions.store.Store;
-import com.coherentsolutions.store.StoreCommandHandler;
+import com.coherentsolutions.store.datageneration.RandomStorePopulator;
+import com.coherentsolutions.store.interfaces.UserInterface;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,7 +20,7 @@ public class StoreApp {
         populator.fillStoreRandomly();
 
         //Read and run commands from the user
-        StoreCommandHandler commandHandler = new StoreCommandHandler(store);
-        commandHandler.readCommands();
+        UserInterface userInterface = new UserInterface(store);
+        userInterface.readCommands();
     }
 }

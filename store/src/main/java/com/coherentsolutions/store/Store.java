@@ -8,18 +8,24 @@ import java.util.Collections;
 import java.util.List;
 
 public class Store {
-    private static Store store;
+    private static volatile Store store;
     private List<Category> categories = new ArrayList<>();
 
     private Store() {
     }
 
-    //Apply Singleton pattern for store
+    //Apply Thread-safe Singleton pattern with lazy loading
     public static Store getStore() {
-        if (store == null) {
-            store = new Store();
+        Store result = store;
+        if (result != null) {
+            return result;
         }
-        return store;
+        synchronized (Store.class) {
+            if (store == null) {
+                store = new Store();
+            }
+            return store;
+        }
     }
 
     public void addCategory(Category category) {
