@@ -13,7 +13,7 @@ public class UserInterface {
 
     public UserInterface(Store store) {
         this.store = store;
-        commandHandler = new CommandHandler();
+        commandHandler = new CommandHandler(store);
     }
 
     public void readCommands() throws IOException, ParserConfigurationException, SAXException {
@@ -24,7 +24,7 @@ public class UserInterface {
         while (!command.equalsIgnoreCase("quit")) {
             System.out.println("Enter a command: ");
             command = scanner.nextLine();
-            commandHandler.executeCommands(command, store);
+            commandHandler.executeCommands(command);
         }
     }
 }

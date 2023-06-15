@@ -5,8 +5,7 @@ import com.coherentsolutions.domain.products.Product;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Cart {
-    //Do I need to apply Singleton for cart???
-    private static volatile Cart cart;
+    //Do I need to apply Singleton for cart??? - Not really
 
     private ConcurrentLinkedQueue<Product> cartItems = new ConcurrentLinkedQueue<>();
 
@@ -14,16 +13,11 @@ public class Cart {
     }
 
     public static Cart getCart() {
-        Cart result = cart;
-        if (result != null) {
-            return result;
-        }
-        synchronized (Cart.class) {
-            if (cart == null) {
-                cart = new Cart();
-            }
-            return cart;
-        }
+        return SingletonHelper.INSTANCE;
+    }
+
+    private static class SingletonHelper {
+        private static final Cart INSTANCE = new Cart();
     }
 
     public void addCartItem(Product product) {

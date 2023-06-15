@@ -9,7 +9,6 @@ import java.util.List;
  * Print Store
  */
 public class StorePrinter {
-
     Store store;
 
     public StorePrinter(Store store) {
@@ -32,9 +31,11 @@ public class StorePrinter {
         return storeBuilder.toString();
     }
 
-    public void printProducts(List<Product> products) {
+    public String printProducts(List<Product> products) {
+        StringBuilder storeBuilder = new StringBuilder();
         for (Product product : products) {
-            System.out.println(product);
+            storeBuilder.append(product).append("\n");
         }
+        return storeBuilder.toString();
     }
 }

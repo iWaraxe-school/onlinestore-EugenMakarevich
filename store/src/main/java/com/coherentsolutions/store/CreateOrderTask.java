@@ -13,6 +13,9 @@ public class CreateOrderTask implements Runnable {
 
     public CreateOrderTask(Store store) {
         this.store = store;
+        //How can I create only one instance of the cart without Singleton applied?
+        //In real-time scenario the initialization of a cart instance would be tied to a user
+        //but here we don't have a user object
         cart = Cart.getCart();
     }
 
