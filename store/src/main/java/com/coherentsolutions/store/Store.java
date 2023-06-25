@@ -32,6 +32,10 @@ public class Store {
         categories.add(category);
     }
 
+    public void addCategorySQL(Category category) {
+        categories.add(category);
+    }
+
     public List<Category> getCategories() {
         return Collections.unmodifiableList(categories);
     }
