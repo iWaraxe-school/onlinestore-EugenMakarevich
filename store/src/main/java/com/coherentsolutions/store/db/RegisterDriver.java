@@ -8,21 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterDriver {
-
-    static Connection con;
+    static Connection conn;
 
     static Faker faker = new Faker();
 
     public static void main(String args[]) throws SQLException, ClassNotFoundException {
-        //TODO Make it try-with-resources instead
-        //Registering the Driver
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        //Getting the connection
-        String mysqlUrl = "jdbc:mysql://localhost/onlinestore";
-        con = DriverManager.getConnection(mysqlUrl, "root", "root");
-        System.out.println("Connection established: " + con);
+        conn = DBConnection.getInstance().getConnection();
 
-        Statement stmt = con.createStatement();
+        Statement stmt = conn.createStatement();
 
         if (!isTableExist("categories")) {
             stmt.executeUpdate("CREATE TABLE categories (\n" +
@@ -46,10 +39,11 @@ public class RegisterDriver {
         }
 
         fillStoreRandomly();
+        System.out.println(printStore());
     }
 
     static boolean isTableExist(String tableName) throws SQLException {
-        PreparedStatement preparedStatement = con.prepareStatement("SELECT count(*) "
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT count(*) "
                 + "FROM information_schema.tables "
                 + "WHERE table_name = ?"
                 + "LIMIT 1;");
@@ -74,7 +68,7 @@ public class RegisterDriver {
     public static void createCategories() throws SQLException {
         for (Categories eCategory : Categories.values()) {
             String query = "INSERT INTO categories (category_name) VALUES (\"" + eCategory.toString() + "\");";
-            PreparedStatement ps = con.prepareStatement(query);
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.executeUpdate();
         }
     }
@@ -87,7 +81,7 @@ public class RegisterDriver {
 
     public static Map<Integer, String> getCategories() throws SQLException {
         String query = "select * from categories;";
-        PreparedStatement ps = con.prepareStatement(query);
+        PreparedStatement ps = conn.prepareStatement(query);
         ResultSet rs = ps.executeQuery(query);
 
         Map<Integer, String> categories = new HashMap<Integer, String>();
@@ -104,7 +98,7 @@ public class RegisterDriver {
                 + generateName(categoryName) + "\","
                 + generatePrice() + ","
                 + generateRate() + ");";
-        PreparedStatement ps = con.prepareStatement(query);
+        PreparedStatement ps = conn.prepareStatement(query);
         ps.executeUpdate();
     }
 
@@ -133,5 +127,28 @@ public class RegisterDriver {
 
     }
 
+    public static String printStore() throws SQLException {
+        StringBuilder storeBuilder = new StringBuilder();
+        storeBuilder.append("Store:\n");
 
+        String query = "SELECT * FROM categories";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+
+        while (rs.next()) {
+            storeBuilder.append("Category: ").append(rs.getString("category_name")).append("\n");
+
+            String categoryId = rs.getString("id");
+            String q = "SELECT * FROM products where category_id = " + categoryId;
+
+            Statement stm = conn.createStatement();
+            ResultSet rss = stm.executeQuery(q);
+            while (rss.next()) {
+                storeBuilder.append("- ")
+                        .append(String.format("Name: %s, Rate: %.2f, Price: %.2f", rss.getString("name"), rss.getDouble("price"), rss.getDouble("rate")))
+                        .append("\n");
+            }
+        }
+        return storeBuilder.toString();
+    }
 }
