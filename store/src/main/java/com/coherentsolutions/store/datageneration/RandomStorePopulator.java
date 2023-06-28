@@ -6,8 +6,6 @@ import com.coherentsolutions.domain.categories.CategoryFactory;
 import com.coherentsolutions.domain.products.Product;
 import com.coherentsolutions.store.Store;
 
-import java.util.Random;
-
 /**
  * Generates fake data for the Store
  * Creates categories specified in Categories and instantiates them via CategoryFactory
@@ -17,7 +15,6 @@ public class RandomStorePopulator {
     private Store store;
     private RandomProductGenerator generator;
     private CategoryFactory factory;
-    final int MAX_NUMBER_PER_CATEGORY = 10;
 
     public RandomStorePopulator(Store store, CategoryFactory factory) {
         this.store = store;
@@ -27,9 +24,10 @@ public class RandomStorePopulator {
 
     public void fillStoreRandomly() {
         createCategories();
+        int productNum = generator.getRandomProductNum();
 
         for (Category category : store.getCategories()) {
-            createProducts(category, new Random().nextInt(MAX_NUMBER_PER_CATEGORY) + 1);
+            createProducts(category, productNum);
         }
     }
 
@@ -37,6 +35,7 @@ public class RandomStorePopulator {
     public void createCategories() {
         for (Categories eCategory : Categories.values()) {
             Category category = factory.getCategory(eCategory);
+            //Also, it would be nice to have a check whether the category already exists in the store before adding it.
             store.addCategory(category);
         }
     }

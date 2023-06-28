@@ -13,7 +13,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +23,8 @@ public class UserCommands {
     XMLParser xmlParser;
     Comparator xmlComparator;
     private Store store;
-    ConcurrentLinkedQueue<Product> cart;
+    private static final String SORT_ORDER = "store/src/main/resources/config.xml";
+    private static final String NODE_NAME = "sort";
 
     public UserCommands(Store store) {
         this.store = store;
@@ -34,15 +34,20 @@ public class UserCommands {
     }
 
     //Sort products based on the sort order parsed from XML
-    public void sort() throws IOException, ParserConfigurationException, SAXException {
+    public String sort() {
         //Parse XML to get sort order
-        Map<String, String> sortOrder = xmlParser.parseXMLToMap("store/src/main/resources/config.xml", "sort");
+        Map<String, String> sortOrder;
+        try {
+            sortOrder = xmlParser.parseXMLToMap(SORT_ORDER, NODE_NAME);
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        }
         List<Product> products = store.getAllProducts();
 
         //Sort products
         products.sort(xmlComparator.buildComparator(xmlComparator.chooseComparator(sortOrder)));
 
-        storePrinter.printProducts(products);
+        return storePrinter.printProducts(products);
     }
 
     //Get the list of top 5 most expensive products and print it in console
@@ -72,7 +77,7 @@ public class UserCommands {
         System.out.println("Exit the store. Goodbye!");
     }
 
-    public void print() {
-        System.out.println(storePrinter.printStore());
+    public String print() {
+        return storePrinter.printStore();
     }
 }

@@ -4,12 +4,16 @@ import com.coherentsolutions.domain.categories.Categories;
 import com.coherentsolutions.domain.products.Product;
 import com.github.javafaker.Faker;
 
+import java.util.Random;
+
 /**
  * Generates products with name, rate and price
  * Names are generated based on the category
  */
 public class RandomProductGenerator {
     Faker faker = new Faker();
+    final int MAX_PRODUCTS_PER_CATEGORY = 10;
+    private int productNum = new Random().nextInt(MAX_PRODUCTS_PER_CATEGORY) + 1;
 
     public Product generateProduct(Categories categoryName) {
         return Product.newBuilder()
@@ -38,5 +42,9 @@ public class RandomProductGenerator {
 
     private double generatePrice() {
         return faker.number().randomDouble(2, 3, 30);
+    }
+
+    public int getRandomProductNum() {
+        return productNum;
     }
 }
