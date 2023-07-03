@@ -2,10 +2,6 @@ package com.coherentsolutions.store.interfaces;
 
 import com.coherentsolutions.store.Store;
 import com.coherentsolutions.store.StorePrinter;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 public class CommandHandler {
     UserCommands commands;
@@ -16,7 +12,7 @@ public class CommandHandler {
         storePrinter = new StorePrinter(store);
     }
 
-    public void executeCommands(String command) throws IOException, ParserConfigurationException, SAXException {
+    public void executeCommands(String command) {
 
         switch (command.toLowerCase()) {
             case "sort":
@@ -35,8 +31,13 @@ public class CommandHandler {
             case "quit": //quit does not work when clearCart command applies
                 commands.quit();
                 return; //How does it work?
+            case "help":
+                commands.help();
+                break;
             default:
                 System.out.println("Unknown command: " + command);
+                commands.help();
+                break;
         }
     }
 }
