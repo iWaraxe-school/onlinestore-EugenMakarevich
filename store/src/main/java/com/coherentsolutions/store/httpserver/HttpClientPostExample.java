@@ -28,7 +28,7 @@ public class HttpClientPostExample {
         connection.setDoOutput(true);
 
         // Set the request body
-        String requestBody = "CLOTHES";
+        String requestBody = "SHOES";
         byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
 
         // Set the content type and content length headers

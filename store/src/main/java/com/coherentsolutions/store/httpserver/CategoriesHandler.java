@@ -12,8 +12,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.coherentsolutions.store.db.DBConstants.INSERT_INTO_CATEGORIES;
-import static com.coherentsolutions.store.db.DBConstants.SELECT_ALL_DATA_FROM_CATEGORIES;
+import static com.coherentsolutions.store.db.DBConstants.*;
 
 public class CategoriesHandler implements HttpHandler {
     @Override
@@ -28,8 +27,11 @@ public class CategoriesHandler implements HttpHandler {
             get(exchange);
         } else if (exchange.getRequestMethod().equalsIgnoreCase("POST")) {
             post(exchange);
+        } else if (exchange.getRequestMethod().equalsIgnoreCase("PUT")) {
+            put(exchange);
+        } else if (exchange.getRequestMethod().equalsIgnoreCase("DELETE")) {
+            delete(exchange);
         }
-
         // Handle other HTTP methods and perform actions accordingly
         // Implement handlers for adding, updating, and deleting categories
     }
@@ -85,6 +87,58 @@ public class CategoriesHandler implements HttpHandler {
             ResultSet rs = stmt.executeQuery(SELECT_ALL_DATA_FROM_CATEGORIES);
             PreparedStatement ps = conn.prepareStatement(INSERT_INTO_CATEGORIES);
             ps.setString(1, category);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void put(HttpExchange exchange) throws IOException {
+        // Read the request body
+        BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
+        StringBuilder requestBody = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        reader.close();
+
+        // The request body as a string
+        String requestBodyString = requestBody.toString();
+        String[] splitValues = requestBodyString.split(",");
+
+        // Accessing the individual values
+        int categoryId = Integer.parseInt(splitValues[0].trim());
+        String newCategoryName = splitValues[1].trim();
+
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(UPDATE_CATEGORY);
+            ps.setInt(2, categoryId);
+            ps.setString(1, newCategoryName);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void delete(HttpExchange exchange) throws IOException {
+        // Read the request body
+        BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
+        StringBuilder requestBody = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        reader.close();
+
+        // The request body as a string
+        int categoryId = Integer.parseInt(requestBody.toString());
+
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(DELETE_CATEGORY);
+            ps.setInt(1, categoryId);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

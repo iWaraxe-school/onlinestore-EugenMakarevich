@@ -8,4 +8,6 @@ public class DBConstants {
     public static final String SELECT_ALL_DATA_FROM_CATEGORIES = "SELECT * FROM categories";
     public static final String INSERT_INTO_PRODUCT = "INSERT INTO products (category_id, name, price, rate) VALUES (?, ?, ?, ?)";
     public static final String INSERT_INTO_CATEGORIES = "INSERT INTO categories (category_name) VALUES (?);";
+    public static final String UPDATE_CATEGORY = "UPDATE categories SET category_name = ? WHERE id = ?;";
+    public static final String DELETE_CATEGORY = "DELETE FROM categories WHERE id = ?";
 }
