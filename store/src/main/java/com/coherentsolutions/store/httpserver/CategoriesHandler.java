@@ -1,0 +1,94 @@
+package com.coherentsolutions.store.httpserver;
+
+import com.coherentsolutions.store.db.DBConnection;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.coherentsolutions.store.db.DBConstants.INSERT_INTO_CATEGORIES;
+import static com.coherentsolutions.store.db.DBConstants.SELECT_ALL_DATA_FROM_CATEGORIES;
+
+public class CategoriesHandler implements HttpHandler {
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+        // Implement the logic to handle categories requests
+        // You can parse the request URL, HTTP method, and body to determine the action
+        // For example, based on the HTTP method, you can invoke appropriate methods on the Category class
+        // and return the appropriate response
+
+        // Handling a GET request for retrieving categories
+        if (exchange.getRequestMethod().equalsIgnoreCase("GET")) {
+            get(exchange);
+        } else if (exchange.getRequestMethod().equalsIgnoreCase("POST")) {
+            post(exchange);
+        }
+
+        // Handle other HTTP methods and perform actions accordingly
+        // Implement handlers for adding, updating, and deleting categories
+    }
+
+    public void get(HttpExchange exchange) throws IOException {
+        List<String> categories = new ArrayList<>();
+
+        // Retrieve categories from the database;
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_DATA_FROM_CATEGORIES);
+
+            while (rs.next()) {
+                categories.add(rs.getString("category_name"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Make response body
+        String response = "";
+
+        for (String category : categories) {
+            response += category + " ";
+        }
+        // Set the response headers
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+        exchange.sendResponseHeaders(200, response.getBytes().length);
+
+        // Send the response body
+        OutputStream outputStream = exchange.getResponseBody();
+        outputStream.write(response.getBytes());
+        outputStream.close();
+    }
+
+    private void post(HttpExchange exchange) throws IOException {
+        // Read the request body
+        BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
+        StringBuilder requestBody = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        reader.close();
+
+        // The request body as a string
+        String category = requestBody.toString();
+
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_DATA_FROM_CATEGORIES);
+            PreparedStatement ps = conn.prepareStatement(INSERT_INTO_CATEGORIES);
+            ps.setString(1, category);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
