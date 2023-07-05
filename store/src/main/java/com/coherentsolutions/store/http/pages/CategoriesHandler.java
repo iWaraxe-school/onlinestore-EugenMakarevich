@@ -1,4 +1,4 @@
-package com.coherentsolutions.store.httpserver;
+package com.coherentsolutions.store.http.pages;
 
 import com.coherentsolutions.store.db.DBConnection;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,12 +17,7 @@ import static com.coherentsolutions.store.db.DBConstants.*;
 public class CategoriesHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Implement the logic to handle categories requests
-        // You can parse the request URL, HTTP method, and body to determine the action
-        // For example, based on the HTTP method, you can invoke appropriate methods on the Category class
-        // and return the appropriate response
-
-        // Handling a GET request for retrieving categories
+        // Handling Http method requests
         if (exchange.getRequestMethod().equalsIgnoreCase("GET")) {
             get(exchange);
         } else if (exchange.getRequestMethod().equalsIgnoreCase("POST")) {
@@ -32,8 +27,6 @@ public class CategoriesHandler implements HttpHandler {
         } else if (exchange.getRequestMethod().equalsIgnoreCase("DELETE")) {
             delete(exchange);
         }
-        // Handle other HTTP methods and perform actions accordingly
-        // Implement handlers for adding, updating, and deleting categories
     }
 
     public void get(HttpExchange exchange) throws IOException {

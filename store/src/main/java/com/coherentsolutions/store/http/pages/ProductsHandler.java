@@ -1,4 +1,4 @@
-package com.coherentsolutions.store.httpserver;
+package com.coherentsolutions.store.http.pages;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

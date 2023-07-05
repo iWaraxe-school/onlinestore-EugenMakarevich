@@ -1,33 +1,26 @@
-package com.coherentsolutions.store.httpserver;
+package com.coherentsolutions.store.http.client;
+
+import com.coherentsolutions.store.http.server.HttpServer;
 
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class HttpClientPutExample {
+public class HttpClientDeleteExample {
     public static void main(String[] args) throws Exception {
-        com.sun.net.httpserver.HttpServer server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(8000), 0);
-        server.setExecutor(null); // Use the default executor
-
-        // Define the server endpoints and their corresponding handlers
-        server.createContext("/categories", new CategoriesHandler());
-        server.createContext("/products", new ProductsHandler());
-
-        // Start the server
-        server.start();
+        new HttpServer().startServer();
 
         // Define the URL to the categories endpoint
         URL url = new URL("http://localhost:8000/categories/1"); // Assuming category ID is 1
 
         // Create an HttpURLConnection instance
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("PUT");
+        connection.setRequestMethod("DELETE");
         connection.setDoOutput(true);
 
         // Set the request body
-        String requestBody = "45, SHOES-UPDATED";
+        String requestBody = "43";
         byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
 
         // Set the content type and content length headers
@@ -52,4 +45,5 @@ public class HttpClientPutExample {
         connection.disconnect();
     }
 }
+
 
