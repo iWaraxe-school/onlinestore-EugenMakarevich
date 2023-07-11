@@ -25,7 +25,7 @@ public class HttpClientDeleteExample {
         connection.setRequestProperty("Authorization", authHeader);
 
         // Set the request body
-        String requestBody = "47";
+        String requestBody = "49";
         byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
 
         // Set other headers

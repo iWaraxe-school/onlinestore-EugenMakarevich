@@ -27,7 +27,7 @@ public class HttpClientPutExample {
         connection.setRequestProperty("Authorization", authHeader);
 
         // Set the request body
-        String requestBody = "48, SHOES";
+        String requestBody = "50, SHOES";
         byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
 
         // Set the content type and content length headers
