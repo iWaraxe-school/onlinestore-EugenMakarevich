@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class HttpClientDeleteExample {
     public static void main(String[] args) throws Exception {
@@ -16,14 +17,20 @@ public class HttpClientDeleteExample {
 
         // Create an HttpURLConnection instance
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("DELETE");
-        connection.setDoOutput(true);
+
+        // Set basic authentication header
+        String auth = "admin" + ":" + "admin";
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeader = "Basic " + encodedAuth;
+        connection.setRequestProperty("Authorization", authHeader);
 
         // Set the request body
-        String requestBody = "43";
+        String requestBody = "47";
         byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
 
-        // Set the content type and content length headers
+        // Set other headers
+        connection.setRequestMethod("DELETE");
+        connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Content-Length", String.valueOf(requestBodyBytes.length));
 

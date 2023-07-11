@@ -15,8 +15,8 @@ public class HttpServer {
         // from making HTTP requests for readability and maintainability.
 
         // Define the server endpoints and their corresponding handlers
-        server.createContext("/categories", new CategoriesHandler());
-        server.createContext("/products", new ProductsHandler());
+        server.createContext("/categories", new CategoriesHandler()).setAuthenticator(new Auth("MyRealm"));
+        server.createContext("/products", new ProductsHandler()).setAuthenticator(new Auth("MyRealm"));
 
         // Start the server
         server.start();

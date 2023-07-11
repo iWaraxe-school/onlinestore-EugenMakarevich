@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class HttpClientGetExample {
     public static void main(String[] args) throws IOException {
@@ -17,6 +19,14 @@ public class HttpClientGetExample {
 
         // Create an HttpURLConnection instance
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        // Set basic authentication header
+        String auth = "admin" + ":" + "admin";
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeader = "Basic " + encodedAuth;
+
+        // Set headers
+        connection.setRequestProperty("Authorization", authHeader);
         connection.setRequestMethod("GET");
 
         // Send the request and receive the response

@@ -6,12 +6,12 @@ import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class HttpClientPostExample {
     public static void main(String[] args) throws Exception {
         new HttpServer().startServer();
 
-        System.out.println("Server is running on port 8000");
         // Define the URL to the categories endpoint
         URL url = new URL("http://localhost:8000/categories");
 
@@ -20,11 +20,17 @@ public class HttpClientPostExample {
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
 
+        // Set basic authentication header
+        String auth = "admin" + ":" + "admin";
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+        String authHeader = "Basic " + encodedAuth;
+        connection.setRequestProperty("Authorization", authHeader);
+
         // Set the request body
         String requestBody = "NEW CATEGORY";
         byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
 
-        // Set the content type and content length headers
+        // Set headers
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Content-Length", String.valueOf(requestBodyBytes.length));
 
