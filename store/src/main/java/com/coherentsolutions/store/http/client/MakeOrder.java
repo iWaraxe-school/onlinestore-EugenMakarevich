@@ -1,23 +1,39 @@
 package com.coherentsolutions.store.http.client;
 
+import com.coherentsolutions.domain.products.Product;
+import com.coherentsolutions.store.db.DbHandler;
 import com.coherentsolutions.store.http.server.HttpServer;
+import com.google.gson.Gson;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.Base64;
 
-public class HttpClientPutExample {
+public class MakeOrder {
+
     public static void main(String[] args) throws Exception {
+        clientMakesOrder();
+    }
+
+    public static void clientMakesOrder() throws SQLException, IOException {
+        Product orderedProduct = new DbHandler().getRandomProduct();
+        Gson g = new Gson();
+        String productJson = g.toJson(orderedProduct);
+
+        System.out.println(productJson);
+
         new HttpServer().startServer();
 
         // Define the URL to the categories endpoint
-        URL url = new URL("http://localhost:8000/categories/1"); // Assuming category ID is 1
+        URL url = new URL("http://localhost:8000/order");
 
         // Create an HttpURLConnection instance
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("PUT");
+        connection.setRequestMethod("POST");
         connection.setDoOutput(true);
 
         // Set basic authentication header
@@ -27,11 +43,9 @@ public class HttpClientPutExample {
         connection.setRequestProperty("Authorization", authHeader);
 
         // Set the request body
-        // I need to send the data in JSON format, like real data example
-        String requestBody = "50, SHOES";
-        byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
+        byte[] requestBodyBytes = productJson.getBytes(StandardCharsets.UTF_8);
 
-        // Set the content type and content length headers
+        // Set headers
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Content-Length", String.valueOf(requestBodyBytes.length));
 
@@ -44,13 +58,13 @@ public class HttpClientPutExample {
         // Get the response code
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            System.out.println("Category updated successfully");
+            System.out.println("Product added successfully to a cart");
         } else {
             System.out.println("Error: " + responseCode);
         }
 
         // Disconnect the connection
         connection.disconnect();
+
     }
 }
-

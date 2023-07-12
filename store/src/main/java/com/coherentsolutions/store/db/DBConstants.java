@@ -10,4 +10,5 @@ public class DBConstants {
     public static final String INSERT_INTO_CATEGORIES = "INSERT INTO categories (category_name) VALUES (?);";
     public static final String UPDATE_CATEGORY = "UPDATE categories SET category_name = ? WHERE id = ?;";
     public static final String DELETE_CATEGORY = "DELETE FROM categories WHERE id = ?";
+    public static final String GET_RANDOM_PRODUCT = "SELECT * FROM products ORDER BY RAND() LIMIT 1;";
 }
