@@ -1,6 +1,7 @@
 package com.coherentsolutions.store.http.pages;
 
 import com.coherentsolutions.domain.products.Product;
+import com.coherentsolutions.store.db.DbHandler;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
@@ -9,6 +10,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 public class Order implements HttpHandler {
     @Override
@@ -36,9 +38,11 @@ public class Order implements HttpHandler {
                     .setPrice(price)
                     .setRate(rate)
                     .build();
-            // Add the logic to add product to the cart table
-        } finally {
 
+            // Add order to the orders table
+            DbHandler.addOrderToDb(orderedProduct);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

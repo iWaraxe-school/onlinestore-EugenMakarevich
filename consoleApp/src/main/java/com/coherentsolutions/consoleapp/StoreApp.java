@@ -33,6 +33,7 @@ public class StoreApp {
         SetUpTables setUpTables = new SetUpTables();
         setUpTables.createCategoriesTable();
         setUpTables.createProductsTable();
+        setUpTables.createOrderTable();
 
         //Fill DB tables with random data
         new RandomStorePopulatorDb().fillStoreRandomly();

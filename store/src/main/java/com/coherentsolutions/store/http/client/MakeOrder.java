@@ -65,6 +65,5 @@ public class MakeOrder {
 
         // Disconnect the connection
         connection.disconnect();
-
     }
 }

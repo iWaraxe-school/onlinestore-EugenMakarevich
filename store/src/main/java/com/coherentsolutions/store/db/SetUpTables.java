@@ -32,4 +32,12 @@ public class SetUpTables {
             stmt.executeUpdate(DELETE_ALL_DATA_FROM_PRODUCTS);
         }
     }
+
+    public void createOrderTable() throws SQLException {
+        if (!checkTable.isTableExist("orders")) {
+            stmt.executeUpdate(CREATE_TABLE_ORDERS);
+        } else {
+            stmt.executeUpdate(DELETE_ALL_DATA_FROM_ORDERS);
+        }
+    }
 }
