@@ -7,13 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.coherentsolutions.store.db.DBConstants.GET_RANDOM_PRODUCT;
-import static com.coherentsolutions.store.db.DBConstants.INSERT_INTO_ORDERS;
+import static com.coherentsolutions.store.db.DBConstants.*;
 
 public class DbHandler {
     private static Connection conn;
 
-    public DbHandler() throws SQLException {
+    public DbHandler() {
         conn = DBConnection.getInstance().getConnection();
     }
 
@@ -33,6 +32,11 @@ public class DbHandler {
         ps.setString(1, order.getName());
         ps.setDouble(2, order.getPrice());
         ps.setDouble(3, order.getRate());
+        ps.executeUpdate();
+    }
+
+    public static void deleteTableData(String tableName, Connection conn) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(DELETE_TABLE_DATA + tableName);
         ps.executeUpdate();
     }
 }

@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 
 public class Order implements HttpHandler {
+    private static final Logger logger = LogManager.getLogger(Order.class);
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // Handling Http requests
@@ -42,7 +45,7 @@ public class Order implements HttpHandler {
             // Add order to the orders table
             DbHandler.addOrderToDb(orderedProduct);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error("An SQL error occurs: ", e);
         }
     }
 }

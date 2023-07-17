@@ -15,11 +15,7 @@ public class RandomProductGeneratorDb {
     Connection conn;
 
     public RandomProductGeneratorDb() {
-        try {
-            conn = DBConnection.getInstance().getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        conn = DBConnection.getInstance().getConnection();
     }
 
     public void generateProduct(int category_id, String categoryName) throws SQLException {

@@ -1,7 +1,7 @@
 package com.coherentsolutions.store.interfaces;
 
 import com.coherentsolutions.store.Store;
-import com.coherentsolutions.store.StorePrinter;
+import com.coherentsolutions.store.print.StorePrinter;
 
 public class CommandHandler {
     UserCommands commands;

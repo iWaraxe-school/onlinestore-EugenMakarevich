@@ -16,11 +16,7 @@ public class RandomStorePopulatorDb {
     Connection conn;
 
     public RandomStorePopulatorDb() {
-        try {
-            conn = DBConnection.getInstance().getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        conn = DBConnection.getInstance().getConnection();
     }
 
     public void fillStoreRandomly() throws SQLException {

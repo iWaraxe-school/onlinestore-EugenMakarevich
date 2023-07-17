@@ -1,13 +1,11 @@
-package com.coherentsolutions.store;
+package com.coherentsolutions.store.print;
 
 import com.coherentsolutions.store.db.DBConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import static com.coherentsolutions.store.db.DBConstants.SELECT_ALL_DATA_FROM_CATEGORIES;
+import static com.coherentsolutions.store.db.DBConstants.SELECT_CATEGORY_PRODUCTS;
 
 public class DbStorePrinter {
     Connection conn;
@@ -27,14 +25,21 @@ public class DbStorePrinter {
                 storeBuilder.append("Category: ").append(rs.getString("category_name")).append("\n");
 
                 String categoryId = rs.getString("id");
-                String q = "SELECT * FROM products where category_id = " + categoryId;
 
-                ResultSet rss = conn.createStatement().executeQuery(q);
-                while (rss.next()) {
-                    storeBuilder.append("- ")
-                            .append(String.format("Name: %s, Rate: %.2f, Price: %.2f", rss.getString("name"), rss.getDouble("price"), rss.getDouble("rate")))
-                            .append("\n");
+                try (PreparedStatement pstmt = conn.prepareStatement(SELECT_CATEGORY_PRODUCTS)) {
+                    pstmt.setString(1, categoryId);
+                    ResultSet rss = pstmt.executeQuery();
+
+                    while (rss.next()) {
+                        storeBuilder.append("- ")
+                                .append(String.format("Name: %s, Rate: %.2f, Price: %.2f", rss.getString("name"), rss.getDouble("price"), rss.getDouble("rate")))
+                                .append("\n");
+                    }
                 }
+            }
+        } finally {
+            if (conn != null) {
+                conn.close();
             }
         }
         return storeBuilder.toString();

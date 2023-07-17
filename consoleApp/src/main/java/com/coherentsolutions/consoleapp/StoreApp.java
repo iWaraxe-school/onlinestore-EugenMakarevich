@@ -1,10 +1,10 @@
 package com.coherentsolutions.consoleapp;
 
-import com.coherentsolutions.store.DbStorePrinter;
 import com.coherentsolutions.store.Store;
 import com.coherentsolutions.store.datageneration.RandomStorePopulatorDb;
 import com.coherentsolutions.store.db.DBConnection;
 import com.coherentsolutions.store.db.SetUpTables;
+import com.coherentsolutions.store.print.DbStorePrinter;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

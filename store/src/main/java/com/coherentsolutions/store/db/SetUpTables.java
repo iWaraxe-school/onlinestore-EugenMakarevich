@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import static com.coherentsolutions.store.db.DBConstants.*;
+import static com.coherentsolutions.store.db.DbHandler.deleteTableData;
 
 public class SetUpTables {
     Connection conn;
@@ -17,27 +18,23 @@ public class SetUpTables {
         checkTable = new CheckTableExistance();
     }
 
-    public void createCategoriesTable() throws SQLException {
-        if (!checkTable.isTableExist("categories")) {
-            stmt.executeUpdate(CREATE_TABLE_CATEGORIES);
+    public void createOrDeleteTable(String tableName, String createQuery) throws SQLException {
+        if (!checkTable.isTableExist(tableName)) {
+            stmt.executeUpdate(createQuery);
         } else {
-            stmt.executeUpdate(DELETE_ALL_DATA_FROM_CATEGORIES);
+            deleteTableData(tableName, conn);
         }
+    }
+
+    public void createCategoriesTable() throws SQLException {
+        createOrDeleteTable("categories", CREATE_TABLE_CATEGORIES);
     }
 
     public void createProductsTable() throws SQLException {
-        if (!checkTable.isTableExist("products")) {
-            stmt.executeUpdate(CREATE_TABLE_PRODUCTS);
-        } else {
-            stmt.executeUpdate(DELETE_ALL_DATA_FROM_PRODUCTS);
-        }
+        createOrDeleteTable("products", CREATE_TABLE_PRODUCTS);
     }
 
     public void createOrderTable() throws SQLException {
-        if (!checkTable.isTableExist("orders")) {
-            stmt.executeUpdate(CREATE_TABLE_ORDERS);
-        } else {
-            stmt.executeUpdate(DELETE_ALL_DATA_FROM_ORDERS);
-        }
+        createOrDeleteTable("orders", CREATE_TABLE_ORDERS);
     }
 }

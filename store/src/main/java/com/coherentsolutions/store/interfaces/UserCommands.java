@@ -4,7 +4,7 @@ import com.coherentsolutions.domain.products.Product;
 import com.coherentsolutions.store.ClearPurchasedGoodsTask;
 import com.coherentsolutions.store.CreateOrderTask;
 import com.coherentsolutions.store.Store;
-import com.coherentsolutions.store.StorePrinter;
+import com.coherentsolutions.store.print.StorePrinter;
 import com.coherentsolutions.store.sorts.Comparator;
 import com.coherentsolutions.store.sorts.XMLParser;
 import org.xml.sax.SAXException;

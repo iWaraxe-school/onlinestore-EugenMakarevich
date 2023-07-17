@@ -3,6 +3,8 @@ package com.coherentsolutions.store.http.pages;
 import com.coherentsolutions.store.db.DBConnection;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.util.List;
 import static com.coherentsolutions.store.db.DBConstants.*;
 
 public class CategoriesHandler implements HttpHandler {
+    private static final Logger logger = LogManager.getLogger(CategoriesHandler.class);
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // Handling Http method requests
@@ -42,7 +45,7 @@ public class CategoriesHandler implements HttpHandler {
                 categories.add(rs.getString("category_name"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error("An SQL error occurs: ", e);
         }
 
         // Make response body
@@ -82,7 +85,7 @@ public class CategoriesHandler implements HttpHandler {
             ps.setString(1, category);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error("An SQL error occurs: ", e);
         }
     }
 
@@ -111,7 +114,7 @@ public class CategoriesHandler implements HttpHandler {
             ps.setString(1, newCategoryName);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error("An SQL error occurs: ", e);
         }
     }
 
@@ -134,7 +137,7 @@ public class CategoriesHandler implements HttpHandler {
             ps.setInt(1, categoryId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error("An SQL error occurs: ", e);
         }
     }
 }
