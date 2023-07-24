@@ -1,7 +1,8 @@
-package com.coherentsolutions.store;
+package com.coherentsolutions.store.print;
 
 import com.coherentsolutions.domain.categories.Category;
 import com.coherentsolutions.domain.products.Product;
+import com.coherentsolutions.store.Store;
 
 import java.util.List;
 

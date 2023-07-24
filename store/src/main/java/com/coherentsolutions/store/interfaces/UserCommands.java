@@ -4,7 +4,7 @@ import com.coherentsolutions.domain.products.Product;
 import com.coherentsolutions.store.ClearPurchasedGoodsTask;
 import com.coherentsolutions.store.CreateOrderTask;
 import com.coherentsolutions.store.Store;
-import com.coherentsolutions.store.StorePrinter;
+import com.coherentsolutions.store.print.StorePrinter;
 import com.coherentsolutions.store.sorts.Comparator;
 import com.coherentsolutions.store.sorts.XMLParser;
 import org.xml.sax.SAXException;
@@ -40,7 +40,7 @@ public class UserCommands {
         try {
             sortOrder = xmlParser.parseXMLToMap(SORT_ORDER, NODE_NAME);
         } catch (IOException | SAXException | ParserConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("An error occurred while sorting the products. " + e);
         }
         List<Product> products = store.getAllProducts();
 
@@ -75,6 +75,16 @@ public class UserCommands {
 
     public void quit() {
         System.out.println("Exit the store. Goodbye!");
+    }
+
+    public void help() {
+        System.out.println("Valid commands:");
+        System.out.println("- sort");
+        System.out.println("- top5");
+        System.out.println("- print");
+        System.out.println("- create order");
+        System.out.println("- help");
+        System.out.println("- quit");
     }
 
     public String print() {
